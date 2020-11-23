@@ -1,0 +1,190 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:406
+GitHash:
+ModuleCount:11
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['*****************************************************************************', 'GOAL: Extract intensity and morphometric features from 2D gastruloids.', '*****************************************************************************', '', 'Drag and drop images to the box below.', 'Images have 2 channels:', '- Brightfield, whole gastruloid', '- GFP, labeling a reporter gene']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:Images only
+    Select the rule criteria:and (extension does isimage) (directory doesnot containregexp "[\\\\/]\\.")
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:['The Metadata module optionally allows you to extract information describing your images (i.e, metadata) which will be stored along with your measurements. This information can be contained in the file name and/or location, or in an external file.', '', 'We will extract metadata from 2 sources:', '- File names', '- CSV file', '', 'The CSV file contains information about experimental treatments']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:Yes
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:2
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:(?P<colrow>.*)\.tif
+    Regular expression to extract from folder name:(?P<Date>[0-9]{4}_[0-9]{2}_[0-9]{2})$
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:No
+    Metadata extraction method:Import from file
+    Metadata source:File name
+    Regular expression to extract from file name:^(?P<Plate>.*)_(?P<Well>[A-P][0-9]{2})_s(?P<Site>[0-9])_w(?P<ChannelNumber>[0-9])
+    Regular expression to extract from folder name:(?P<Date>[0-9]{4}_[0-9]{2}_[0-9]{2})$
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Default Input Folder|
+    Match file and image metadata:[{'CSV Metadata': 'colrow', 'Image Metadata': 'colrow'}]
+    Use case insensitive matching?:No
+    Metadata file name:metadata.csv
+    Does cached metadata exist?:No
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['The NamesAndTypes module allows you to assign a meaningful name to each image by which other modules will refer to it.', '', 'Selecting "color image" so that CellProfiler can appropriately handle the 2 channels.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:All images
+    Select the image type:Color image
+    Name to assign these images:raw
+    Match metadata:[]
+    Image set matching method:Order
+    Set intensity range from:Image metadata
+    Assignments count:1
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:No
+    Relative pixel spacing in X:1.0
+    Relative pixel spacing in Y:1.0
+    Relative pixel spacing in Z:1.0
+    Select the rule criteria:and (file does contain "")
+    Name to assign these images:DNA
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['The Groups module optionally allows you to split your list of images into image subsets (groups) which will be processed independently of each other. Examples of groupings include screening batches, microtiter plates, time-lapse movies, etc.', '', 'This dataset has no groups.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:No
+    grouping metadata count:1
+    Metadata category:None
+
+ColorToGray:[module_num:5|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:['Split channels']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:raw
+    Conversion method:Split
+    Image type:RGB
+    Name the output image:OrigGray
+    Relative weight of the red channel:1.0
+    Relative weight of the green channel:1.0
+    Relative weight of the blue channel:1.0
+    Convert red to gray?:Yes
+    Name the output image:bf
+    Convert green to gray?:Yes
+    Name the output image:gfp
+    Convert blue to gray?:No
+    Name the output image:OrigBlue
+    Convert hue to gray?:Yes
+    Name the output image:OrigHue
+    Convert saturation to gray?:Yes
+    Name the output image:OrigSaturation
+    Convert value to gray?:Yes
+    Name the output image:OrigValue
+    Channel count:1
+    Channel number:1
+    Relative weight of the channel:1.0
+    Image name:Channel1
+
+MeasureImageIntensity:[module_num:6|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:['Let us enhance the brightfield image in preparation for organoid segmentation.', 'Let us measure pixel intensities in order to estimate the "background" intensity']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:bf
+    Measure the intensity only from areas enclosed by objects?:No
+    Select input object sets:
+    Calculate custom percentiles:No
+    Specify percentiles to measure:10,90
+
+ImageMath:[module_num:7|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:['Transform the brightfield into a flourescence-like image (dark background, bright objects)', 'Compute the pixel-by-pixel absolute difference to the median image intensity.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:Absolute Difference
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:No
+    Set values greater than 1 equal to 1?:No
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:bf_darkbg
+    Image or measurement?:Image
+    Select the first image:bf
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Measurement
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:Intensity_MedianIntensity_bf
+
+Closing:[module_num:8|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:['The morphological closing will improve the segmentation of darker regions.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:bf_darkbg
+    Name the output image:bf_enhanced
+    Structuring element:disk,1
+
+IdentifyPrimaryObjects:[module_num:9|svn_version:'Unknown'|variable_revision_number:14|show_window:False|notes:['This module thresholds the image and performs the connected component analysis.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:bf_enhanced
+    Name the primary objects to be identified:gastruloid0
+    Typical diameter of objects, in pixel units (Min,Max):70,400
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:No
+    Method to distinguish clumped objects:None
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:7.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:Yes
+    Automatically calculate minimum allowed distance between local maxima?:Yes
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Display accepted local maxima?:No
+    Select maxima color:Blue
+    Use advanced settings?:Yes
+    Threshold setting version:11
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:3
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+MeasureObjectIntensity:[module_num:10|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:['Measure GFP fluorescence at each object.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:gfp
+    Select objects to measure:gastruloid0
+
+ExportToSpreadsheet:[module_num:11|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:['Save numerical features as CSV.', '', 'Two files will be saved:', '[objects.csv] - Contains features for every object in the dataset', '[image.csv]  - Summary statistics: mean and standard deviation of each numerical feature, image by image.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the column delimiter:Comma (",")
+    Add image metadata columns to your object data file?:Yes
+    Add image file and folder names to your object data file?:Yes
+    Select the measurements to export:Yes
+    Calculate the per-image mean values for object measurements?:No
+    Calculate the per-image median values for object measurements?:No
+    Calculate the per-image standard deviation values for object measurements?:No
+    Output file location:Default Output Folder|
+    Create a GenePattern GCT file?:No
+    Select source of sample row name:Metadata
+    Select the image to use as the identifier:None
+    Select the metadata to use as the identifier:None
+    Export all measurement types?:No
+    Press button to select measurements:gastruloid0|Intensity_MeanIntensity_gfp,gastruloid0|Intensity_StdIntensity_gfp,gastruloid0|Intensity_IntegratedIntensity_gfp,gastruloid0|Location_Center_X,gastruloid0|Location_Center_Z,gastruloid0|Location_Center_Y,gastruloid0|Number_Object_Number,Image|Metadata_colrow,Image|Metadata_treatment,Image|Metadata_FileLocation,Image|PathName_raw,Image|Count_gastruloid0,Image|FileName_raw
+    Representation of Nan/Inf:NaN
+    Add a prefix to file names?:No
+    Filename prefix:MyExpt_
+    Overwrite existing files without warning?:Yes
+    Data to export:gastruloid0
+    Combine these object measurements with those of the previous object?:No
+    File name:objects.csv
+    Use the object name for the file name?:No
+    Data to export:Image
+    Combine these object measurements with those of the previous object?:No
+    File name:image.csv
+    Use the object name for the file name?:No
