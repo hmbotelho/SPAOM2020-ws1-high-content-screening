@@ -193,7 +193,7 @@ fig %>% layout(autosize = F, width = 500, height = 1000)
 ```
 
 
-![heatmap hclust]()./img/heatmaply.png)
+![heatmap hclust](./img/heatmaply.png)
 
 
 
