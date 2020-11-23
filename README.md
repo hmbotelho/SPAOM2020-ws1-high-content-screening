@@ -7,7 +7,8 @@
 ## High content image analysis with CellProfiler
 24 November 2020
 
-[Hugo M. Botelho](http://webpages.fc.ul.pt/~hmbotelho), Biosystems and Integrative Sciences Institute, University of Lisboa 
+[Hugo M. Botelho](http://webpages.fc.ul.pt/~hmbotelho), Biosystems and Integrative Sciences Institute, University of Lisboa  
+<hmbotelho@fc.ul.pt>  
 
 
 We will use CellProfiler as a tool to batch analyze a 2D and a 3D imaging dataset. We will introduce the recently released CellProfiler 4 and present the major changes in this version. Then, we will design a custom analysis pipeline to segment objects, extract quantitative features and export a results table. We will also show how the analysis pipeline can be customized to address advanced analytical requirements and allow annotation with experimental metadata.
