@@ -1,6 +1,7 @@
 # Unnecessary folders
 gastr_HCS_2D/
 gastr_LSFM_3D/
+.ipynb_checkpoints/
 
 # Notes
 workshop_notes.pptx
