@@ -85,6 +85,8 @@ Extract features for image classification.
 
 ### <a name="analysis2D_description">2.2. Dataset description</a>
 
+Images provided by [Nicola Griti](mailto:nicola.gritti@embl.es) and [Vikas Trivedi](mailto:vikas.trivedi@embl.es), [EMBL Barcelona](https://www.embl.es/research/unit/trivedi/)
+
 2D images for single gastruloids expressing a GFP-fused gene. Imaged with a PerkinElmer Opera Phenix system. 
 
 - **Number of images:** 96
@@ -214,6 +216,8 @@ Quantify GFP fluorescence in different cell populations (3D).
 
 
 ### <a name="analysis3D_dataset">3.2. Dataset description</a>
+
+Images provided by [Nicola Griti](mailto:nicola.gritti@embl.es) and [Vikas Trivedi](mailto:vikas.trivedi@embl.es), [EMBL Barcelona](https://www.embl.es/research/unit/trivedi/)
 
 One gastruloid imaged with light sheet fluorescence microscopy after fixation and staining to measure the expression level of a certain marker gene.
 
